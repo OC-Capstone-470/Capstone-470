@@ -1,0 +1,79 @@
+# === Global ===
+.DS_Store
+.env
+.env.*           # For multiple env files like .env.dev, .env.local, etc.
+*.log
+*.sqlite3
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*.swo
+*.bak
+*.tmp
+
+# === Python / FastAPI ===
+venv/
+env/
+.venv/
+instance/
+.mypy_cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.egg-info/
+dist/
+build/
+*.egg
+celerybeat-schedule
+celerybeat.pid
+
+# === Redis dump files ===
+dump.rdb
+*.aof
+
+# === PostgreSQL ===
+*.pgsql
+*.sql
+*.db
+
+# === Node.js / Next.js / React ===
+node_modules/
+.next/
+out/             # for static exports in Next.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# === Tailwind CSS ===
+tailwind.config.js
+postcss.config.js
+
+# === VSCode / IDEs ===
+.vscode/
+.idea/
+*.code-workspace
+
+# === Coverage / Reports ===
+coverage/
+*.lcov
+
+# === Others ===
+*.pid
+*.lock          # lock files if using pipenv or poetry
+*.pem
+*.key
+
+# === Static / Media files (optional) ===
+staticfiles/
+media/
+uploads/
+
+# === Docker (if applicable) ===
+*.tar
+*.img
+*.container
+docker-compose.override.yml
