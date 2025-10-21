@@ -10,8 +10,8 @@ export default function LoginForm() {
 
   const mutation = useMutation({
     mutationFn: async ({ username, password }: { username: string; password: string }) => {
-      // Mock API call (simulates /token endpoint from User Management Service)
-      return { token: 'mock_token', role: 'admin' };
+      const response = await axios.post('/api/login', { username, password });
+      return response.data;
     },
   });
 
@@ -26,8 +26,11 @@ export default function LoginForm() {
       <p className="text-blue-600 text-center underline">Please sign in or create an account</p>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-left font-medium">Username:</label>
+          <label htmlFor="username" className="block text-left font-medium">
+            Username:
+          </label>
           <input
+            id="username"
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
@@ -37,8 +40,11 @@ export default function LoginForm() {
           <a href="#" className="text-blue-600 text-sm block text-left">Forgot Username</a>
         </div>
         <div>
-          <label className="block text-left font-medium">Password:</label>
+          <label htmlFor="password" className="block text-left font-medium">
+            Password:
+          </label>
           <input
+            id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
