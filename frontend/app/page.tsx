@@ -5,13 +5,6 @@ import axios from 'axios';
 import LoginForm from './components/LoginForm';
 import MockAdapter from 'axios-mock-adapter';
 
-// Mock API response (simulates /users endpoint from User Management Service)
-const mock = new MockAdapter(axios);
-mock.onGet('http://localhost:8080/users').reply(200, [
-  { id: 1, username: 'admin1', role: 'admin' },
-  { id: 2, username: 'volunteer1', role: 'volunteer' },
-]);
-
 export default function Home() {
   const { data, error, isLoading } = useQuery({
     queryKey: ['users'],
