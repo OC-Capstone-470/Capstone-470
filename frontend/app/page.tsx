@@ -5,7 +5,23 @@ import axios from 'axios';
 import LoginForm from './components/LoginForm';
 import MockAdapter from 'axios-mock-adapter';
 
-export default function Home() {
+export default function Page() {
+  return (
+    <div className="min-h-screen flex flex-col bg-white text-black">
+      <header className="p-2 bg-red-600 text-white text-center">
+        <h1 className="text-xl font-bold">Canadian Red Cross Virtual Portal</h1>
+      </header>
+      <main className="flex-1 flex justify-center items-center p-4">
+        <LoginForm />
+      </main>
+      <footer className="p-2 bg-red-600 text-white text-center text-sm">
+        Copyright 2025 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+      </footer>
+    </div>
+  );
+}
+
+/*export default function Home() {
   const { data, error, isLoading } = useQuery({
     queryKey: ['users'],
     queryFn: async () => {
@@ -41,4 +57,4 @@ export default function Home() {
       )}
     </div>
   );
-}
+}*/

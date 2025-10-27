@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { QueryProvider } from '../providers';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 export const metadata: Metadata = {
   title: 'Volunteer Management App',
@@ -15,7 +16,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <QueryProvider>{children}</QueryProvider>
+        <GoogleOAuthProvider clientId="331934203095-4ldjs8or32tjomdo7k49jcsp6ud3sa49.apps.googleusercontent.com">
+          <QueryProvider>{children}</QueryProvider>
+        </GoogleOAuthProvider>
       </body>
     </html>
   );
