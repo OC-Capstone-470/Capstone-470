@@ -29,6 +29,8 @@ jobs:
       # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
         uses: actions/checkout@v5
+      - name: npm cache clean
+        run: npm cache clean
         
       - name: npm install
         run: npm install
