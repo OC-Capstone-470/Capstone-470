@@ -29,7 +29,10 @@ jobs:
       # Downloads a copy of the code in your repository before running CI tests
       - name: Check out repository code
         uses: actions/checkout@v5
-
+        
+      - name: npm init
+        run: npm init
+        
       - name: npm install
         run: npm install
 
