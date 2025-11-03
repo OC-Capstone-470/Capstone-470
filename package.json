@@ -1,0 +1,25 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "test",
+  "keywords": [
+    "test",
+    "keywords"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "test repository"
+  },
+  "license": "ISC",
+  "author": "test author",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "test command"
+  },
+  "dependencies": {
+    "corepack": "^0.34.0",
+    "npm": "^11.6.1"
+  },
+  "devDependencies": {}
+}
