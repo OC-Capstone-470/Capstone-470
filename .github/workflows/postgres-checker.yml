@@ -30,9 +30,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v5
         
-      - name: npm init
-        run: npm init
-        
       - name: npm install
         run: npm install
 
