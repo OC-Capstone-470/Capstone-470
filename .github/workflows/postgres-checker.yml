@@ -30,12 +30,6 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v5
 
-      - name: npm cache clean
-        run: npm cache clean --force
-        
-      - name: npm install
-        run: npm install
-
       # Performs a clean installation of all dependencies in the `package.json` file
       # For more information, see https://docs.npmjs.com/cli/ci.html
       - name: Install dependencies
