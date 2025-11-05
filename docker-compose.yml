@@ -1,16 +1,68 @@
+# Capstone-470/docker-compose.yml
 version: '3.8'
+
 services:
+  db:
+    image: postgres:15
+    container_name: redcross-db
+    environment:
+      POSTGRES_DB: redcross
+      POSTGRES_USER: redcross_user
+      POSTGRES_PASSWORD: redcross_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: redcross-pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: letmein
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  auth-service:
+    build: ./auth-service
+    container_name: auth-service
+    ports:
+      - "8001:8000"
+    environment:
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  user-service:
+    build: ./user-service
+    container_name: user-service
+    ports:
+      - "8002:8000"
+    environment:
+      - DATABASE_URL=postgresql://redcross_user:redcross_pass@db:5432/redcross
+    depends_on:
+      - db
+    restart: unless-stopped
+
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    build: ./frontend
+    container_name: frontend
     ports:
       - "3000:3000"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
-    networks:
-      - app-network
-networks:
-  app-network:
-    driver: bridge
+    environment:
+      - VITE_AUTH_URL=http://localhost:8001
+    depends_on:
+      - auth-service
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  pgadmin_data:

@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -11,11 +15,28 @@
     "moduleResolution": "node", // Change to 'node' for Jest compatibility
     "resolveJsonModule": true,
     "isolatedModules": true, // Required by Next.js
-    "jsx": "react-jsx", // Change to 'react-jsx' for better Jest support
+    "jsx": "preserve", // Change to 'react-jsx' for better Jest support
     "incremental": true,
-    "plugins": [{"name": "next"}], // Keep for Next.js
-    "paths": {"@/*": ["./*"]}
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ], // Keep for Next.js
+    "paths": {
+      "@/*": [
+        "./*"
+      ]
+    }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "**/*.test.ts", "**/*.test.tsx"], // Add test files
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "**/*.test.ts",
+    "**/*.test.tsx"
+  ], // Add test files
+  "exclude": [
+    "node_modules"
+  ]
 }
