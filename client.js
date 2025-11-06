@@ -11,9 +11,9 @@ const pgclient = new Client({
 
 pgclient.connect();
 
-const table = 'CREATE TABLE student(id SERIAL PRIMARY KEY, firstName VARCHAR(40) NOT NULL, lastName VARCHAR(40) NOT NULL, age INT, address VARCHAR(80), email VARCHAR(40))'
-const text = 'INSERT INTO student(firstname, lastname, age, address, email) VALUES($1, $2, $3, $4, $5) RETURNING *'
-const values = ['Mona the', 'Octocat', 9, '88 Colin P Kelly Jr St, San Francisco, CA 94107, United States', 'octocat@github.com']
+const table = 'CREATE TABLE Profile(id SERIAL PRIMARY KEY, email VARCHAR(75) UNIQUE NOT NULL, FName VARCHAR(50), LName VARCHAR(50), role VARCHAR(12) NOT NULL, status VARCHAR(25), phone VARCHAR(12) NOT NULL)'
+const text = 'INSERT INTO Profile(email, FName, LName, role, status, phone) VALUES($1, $2, $3, $4, $5, $6) RETURNING *'
+const values = ['tofuspark@gmail.com', 'Alex', 'Anthony', 'admin', 'active', '12501234567']
 
 pgclient.query(table, (err, res) => {
     if (err) throw err
@@ -23,7 +23,7 @@ pgclient.query(text, values, (err, res) => {
     if (err) throw err
 });
 
-pgclient.query('SELECT * FROM student', (err, res) => {
+pgclient.query('SELECT * FROM Profile', (err, res) => {
     if (err) throw err
     console.log(err, res.rows) // Print the data in student table
     pgclient.end()
