@@ -1,0 +1,58 @@
+name: CI                     # Name shown in GitHub Actions UI
+
+on:                          # Triggers
+  push:
+    branches: [ main ]      # Run on pushes to main
+  pull_request:
+    branches: [ main ]      # Run on PRs targeting main
+
+jobs:
+  test:                      # One job called "test"
+    runs-on: ubuntu-latest   # Fresh Ubuntu runner
+
+    services:                # Spin up a Postgres container for the tests
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: redcross
+          POSTGRES_USER: redcross_user
+          POSTGRES_PASSWORD: redcross_pass
+        ports: [5432:5432]
+        options: >-
+          --health-cmd "pg_isready -U redcross_user -d redcross"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Install backend dependencies (both services share the same runner)
+      - name: Install auth-service deps
+        run: pip install -r auth-service/requirements.txt
+
+      - name: Install user-service deps
+        run: pip install -r user-service/requirements.txt
+
+      # Run the backend test suites
+      - name: Run auth-service tests
+        run: pytest auth-service/tests -vv
+
+      - name: Run user-service tests
+        run: pytest user-service/tests -vv
+
+      # (Optional) Run frontend tests – you can add a separate job if you prefer
+      # - name: Install Node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: '20'
+      # - name: Install frontend deps
+      #   run: cd frontend && npm ci
+      # - name: Run frontend tests
+      #   run: cd frontend && npm test -- --ci
