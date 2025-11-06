@@ -15,7 +15,7 @@
     "moduleResolution": "node", // Change to 'node' for Jest compatibility
     "resolveJsonModule": true,
     "isolatedModules": true, // Required by Next.js
-    "jsx": "preserve", // Change to 'react-jsx' for better Jest support
+    "jsx": "react-jsx", // Change to 'react-jsx' for better Jest support
     "incremental": true,
     "plugins": [
       {
