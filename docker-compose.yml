@@ -35,8 +35,8 @@ services:
     ports:
       - "8001:8000"
     environment:
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - GOOGLE_CLIENT_ID=331934203095-4ldjs8or32tjomdo7k49jcsp6ud3sa49.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
     depends_on:
       - db
     restart: unless-stopped

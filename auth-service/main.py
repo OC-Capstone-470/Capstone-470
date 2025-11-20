@@ -70,10 +70,16 @@ async def exchange_code(data: dict):
         "grant_type": "authorization_code"
     }
     resp = requests.post("https://oauth2.googleapis.com/token", data=payload)
-    data = resp.json()
-    if "id_token" not in data:
-        raise HTTPException(400, "Failed to get id_token")
-    return {"id_token": data["id_token"]}
+    token_data = resp.json()
+
+    if "error" in token_data:
+        raise HTTPException(400, f"Google error: {token_data['error_description']}")
+    if "id_token" not in token_data and "access_token" not in token_data:
+        raise HTTPException(400, "No tokens returned from Google")
+    return {
+        "id_token": token_data["id_token"],
+        "access_token": token_data["access_token"]
+    }
 
 @app.get("/validate")
 async def validate(data: dict = Depends(validate_token)):

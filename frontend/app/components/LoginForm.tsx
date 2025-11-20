@@ -3,11 +3,13 @@
 import { useState } from 'react';
 import { useGoogleLogin } from '@react-oauth/google';
 import axios from 'axios';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const login = useGoogleLogin({
     onSuccess: async (response) => {
@@ -23,6 +25,11 @@ export default function LoginForm() {
 
         const id_token = data.id_token;
 
+        localStorage.setItem('google_id_token', id_token);
+
+        localStorage.setItem('google_access_token', data.access_token);
+        console.log('ACCESS TOKEN SAVED:', data.access_token);
+
         // Validate
         const { data: validateData } = await axios.get(`${AUTH_URL}/validate`, {  // Use AUTH_URL
           headers: { Authorization: `Bearer ${id_token}` },
@@ -34,6 +41,7 @@ export default function LoginForm() {
           headers: { Authorization: `Bearer ${id_token}` },
         });
         console.log('User Profile:', userData);
+        router.push('/calendar');
       } catch (err: any) {
         setError(err.response?.data?.detail || 'Login failed');
       } finally {
@@ -42,6 +50,7 @@ export default function LoginForm() {
     },
     flow: 'auth-code',
     redirect_uri: 'http://localhost:3000',
+    scope: 'https://www.googleapis.com/auth/calendar.readonly openid email profile'
   });
 
   return (
