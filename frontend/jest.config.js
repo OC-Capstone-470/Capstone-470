@@ -1,11 +1,16 @@
+// frontend/jest.config.js
 module.exports = {
-  roots: ['<rootDir>'],
-  preset: 'ts-jest',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
   },
-  // Optional: Exclude node_modules except for specific packages if needed
-  transformIgnorePatterns: ['/node_modules/(?!(@testing-library|axios-mock-adapter)/)'],
+  transform: {
+    '^.+\\.(ts|tsx|js|jsx)$': 'ts-jest',
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!(@fullcalendar|preact)/)',
+  ],
+  testRegex: '(/__tests__/.*|(\\.|/)(test|spec))\\.(tsx?|jsx?)$',
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
 };

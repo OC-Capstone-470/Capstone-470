@@ -1,16 +1,14 @@
-name: CI                     # Name shown in GitHub Actions UI
-
-on:                          # Triggers
+name: CI
+on:
   push:
-    branches: [ main ]      # Run on pushes to main
+    branches: [ main ]
   pull_request:
-    branches: [ main ]      # Run on PRs targeting main
+    branches: [ main ]
 
 jobs:
-  test:                      # One job called "test"
-    runs-on: ubuntu-latest   # Fresh Ubuntu runner
-
-    services:                # Spin up a Postgres container for the tests
+  test:
+    runs-on: ubuntu-latest
+    services:
       postgres:
         image: postgres:15
         env:
@@ -28,31 +26,37 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # ────────────────────── Python / Backend ──────────────────────
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      # Install backend dependencies (both services share the same runner)
       - name: Install auth-service deps
         run: pip install -r auth-service/requirements.txt
 
       - name: Install user-service deps
         run: pip install -r user-service/requirements.txt
 
-      # Run the backend test suites
-      - name: Run auth-service tests
-        run: pytest auth-service/tests -vv
+      - name: Run backend tests
+        run: |
+          pytest auth-service/tests -vv
+          pytest user-service/tests -vv
 
-      - name: Run user-service tests
-        run: pytest user-service/tests -vv
+      # ────────────────────── Node / Frontend ──────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
 
-      # (Optional) Run frontend tests – you can add a separate job if you prefer
-      # - name: Install Node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: '20'
-      # - name: Install frontend deps
-      #   run: cd frontend && npm ci
-      # - name: Run frontend tests
-      #   run: cd frontend && npm test -- --ci
+      - name: Install frontend dependencies
+        run: cd frontend && npm ci
+
+      - name: Run frontend tests
+        run: cd frontend && npm test -- --coverage --ci
+
+      # Optional: Upload coverage (if you want pretty badges later)
+      # - name: Upload coverage
+      #   uses: codecov/codecov-action@v4
