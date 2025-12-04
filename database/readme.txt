@@ -1,7 +1,6 @@
-use "docker compose -f "docker-compose.yml" up" to run
+deprecated sql backup, couldn't load .sql backup into postgres without minor errors
 
-run psql shell application, use defaults for everything but password
-password: letmein
+the database schema is also deprecated...
 
 on pgadmin4, right click database, and select "backup"
 
